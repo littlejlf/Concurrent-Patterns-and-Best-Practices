@@ -9,6 +9,7 @@ public abstract class MyLock implements Lock {
 
     @Override
     public void lock() {
+        //不会进行上下文切换
         while(b.getAndSet(true)) {
             // do nothing
         }

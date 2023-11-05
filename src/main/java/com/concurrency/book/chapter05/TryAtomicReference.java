@@ -10,8 +10,7 @@ public class TryAtomicReference {
                 new AtomicReference<String>(firstRef);
 
         System.out.println(atomicStringReference.compareAndSet(firstRef, "Reference Value 1"));
-        System.out.println(atomicStringReference.compareAndSet(firstRef, "Reference Value 2"));
-
+        System.out.println(atomicStringReference.compareAndSet("Reference Value 1", "Reference Value 2"));
         System.out.println(atomicStringReference.get());
     }
 }

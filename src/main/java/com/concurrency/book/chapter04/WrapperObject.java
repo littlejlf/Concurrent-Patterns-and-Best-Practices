@@ -98,7 +98,7 @@ public class WrapperObject {
     public static void main(String[] args) throws InterruptedException {
         WrapperObject wrapperObject = new WrapperObject();
         wrapperObject.startTheActiveObject();
-
+//在一个线程里执行 线程里有维护一个runnable 阻塞队列
         wrapperObject.invokeLegacyOp1();
         wrapperObject.invokeLegacyOp2();
 

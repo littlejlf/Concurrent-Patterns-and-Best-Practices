@@ -20,7 +20,7 @@ public class EgrepWord1 {
     private final static ForkJoinPool forkJoinPool = new ForkJoinPool();
 
     private static class WordFinder extends RecursiveTask<List<String>> {
-
+        //目录或者文件
         final File file;
         final String word;
 
@@ -28,7 +28,7 @@ public class EgrepWord1 {
             this.file = file;
             this.word = word;
         }
-
+        //深度遍历递归 并行运行同一层递归
         @Override
         protected List<String> compute() {
             if (file.isFile()) {
@@ -39,12 +39,8 @@ public class EgrepWord1 {
                     List<ForkJoinTask<List<String>>> tasks = Lists.newArrayList();
                     List<String> result = Lists.newArrayList();
                     for (final File child : children) {
-                        if (child.isFile()) {
-                            List<String> taskResult = grepInFile(child, word);
-                            result.addAll(taskResult);
-                        } else {
+
                             tasks.add(new WordFinder(child, word));
-                        }
                     }
                     for (final ForkJoinTask<List<String>> task : invokeAll(tasks)) {
                         List<String> taskResult = task.join();

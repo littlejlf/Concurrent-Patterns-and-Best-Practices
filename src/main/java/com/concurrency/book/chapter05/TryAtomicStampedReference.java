@@ -16,7 +16,7 @@ public class TryAtomicStampedReference {
         int newStamp = stamp1 + 1;
 
         boolean r = atomicStringReference
-                .compareAndSet(firstRef, newRef, stamp1, newStamp);
+                .compareAndSet(firstRef, newRef, stamp1, 11);
         System.out.println("r: " + r);
 
         r = atomicStringReference
@@ -24,7 +24,7 @@ public class TryAtomicStampedReference {
         System.out.println("r: " + r);
 
         r = atomicStringReference
-                .compareAndSet(newRef, "new string", stamp1, newStamp + 1);
+                .compareAndSet(newRef, "new string", 11, newStamp + 1);
         System.out.println("r: " + r);
 
         r = atomicStringReference

@@ -13,7 +13,9 @@ public class TaskStealingThread extends Thread {
 
     public TaskStealingThread(Deque<Runnable>[] arrTaskQueue, int myId, Random rand) {
         this.arrTaskQueue = arrTaskQueue;
+        //tag itself deque
         this.myId = myId;
+        //to steal randomly
         this.rand = rand;
     }
 
@@ -24,7 +26,7 @@ public class TaskStealingThread extends Thread {
         if (!myTaskQueue.isEmpty()) {
             task = myTaskQueue.pop();
         }
-
+        //keep thread active
         while(true) {
             while (task != null) {
                 task.run();
@@ -36,7 +38,7 @@ public class TaskStealingThread extends Thread {
             }
 
             while (task == null) {
-                Thread.yield();
+                Thread.yield();// prefer the origin owner to exec task
                 int stealIndex = rand.nextInt(arrTaskQueue.length);
                 if (!arrTaskQueue[stealIndex].isEmpty()) {
                     task = arrTaskQueue[stealIndex].removeLast();

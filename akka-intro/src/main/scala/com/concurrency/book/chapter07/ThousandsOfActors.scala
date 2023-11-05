@@ -1,7 +1,7 @@
-package com.concurrency.book.chapter08
+package com.concurrency.book.chapter07
 
 import akka.actor.ActorSystem
-import com.concurrency.book.chapter08.MyActor.actorSystem
+import com.concurrency.book.chapter07.MyActor.actorSystem
 
 object ThousandsOfActors extends App {
   val actorSystem = ActorSystem("MyActorSystem")

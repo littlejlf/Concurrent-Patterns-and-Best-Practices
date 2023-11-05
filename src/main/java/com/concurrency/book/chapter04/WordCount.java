@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 public class WordCount {
+    //Global Sharing
     final static AtomicLong count = new AtomicLong();
 
     public static void main(String[] args) {
@@ -39,6 +40,7 @@ public class WordCount {
         Stream<String> lines = null;
         try {
             path = Paths.get(Thread.currentThread().getContextClassLoader().getResource(fileName).toURI());
+            System.out.println("path= "+path);
             lines = Files.lines(path);
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);

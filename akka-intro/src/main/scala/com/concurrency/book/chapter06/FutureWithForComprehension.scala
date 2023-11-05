@@ -1,4 +1,4 @@
-  package com.concurrency.book.chapter07
+  package com.concurrency.book.chapter06
 
   import scala.concurrent.ExecutionContext.Implicits.global
   import scala.concurrent.{Await, Future}

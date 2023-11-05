@@ -7,12 +7,12 @@ public class AppCyclicBarrier {
     public static void main(String[] args) throws BrokenBarrierException, InterruptedException {
         Runnable barrierAction = new Runnable() {
             public void run() {
-                System.out.println("BarrierAction 1 executed ");
+                //System.out.println("BarrierAction 1 executed ");
             }
         };
 
-        CyclicBarrier barrier = new CyclicBarrier(3, barrierAction);
-
+        //CyclicBarrier barrier = new CyclicBarrier(3, barrierAction);
+        Mybarrier barrier= new Mybarrier(3,barrierAction);
         Runnable w1 = createWorker(barrier);
         Runnable w2 = createWorker(barrier);
 
@@ -30,9 +30,10 @@ public class AppCyclicBarrier {
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    System.out.println("Waiting at barrier");
+                  //  System.out.println("Waiting at barrier");
                     try {
                         barrier.await();
+                     //   System.out.println("all patners is done i can do other thing "+Thread.currentThread().getName());
                     } catch (BrokenBarrierException e) {
                         e.printStackTrace();
                     }

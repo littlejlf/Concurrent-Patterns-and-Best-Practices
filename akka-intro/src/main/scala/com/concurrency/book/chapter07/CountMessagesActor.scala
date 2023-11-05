@@ -1,4 +1,4 @@
-package com.concurrency.book.chapter08
+package com.concurrency.book.chapter07
 
 import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 

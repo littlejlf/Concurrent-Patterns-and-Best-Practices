@@ -20,6 +20,7 @@ public class YetAnotherReentrantLock {
             this.wait();
         }
         lockedBy = Thread.currentThread();
+        System.out.println("lockedBy "+Thread.currentThread().getName());
         lockCount++;
     }
 

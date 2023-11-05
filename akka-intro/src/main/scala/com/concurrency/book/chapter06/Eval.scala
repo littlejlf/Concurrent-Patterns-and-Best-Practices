@@ -1,4 +1,4 @@
-package com.concurrency.book.chapter07
+package com.concurrency.book.chapter06
 
 object Eval extends App {
   def eagerEval( b: Boolean, ifTrue: Unit, ifFalse: Unit ) =

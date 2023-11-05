@@ -12,9 +12,10 @@ import java.util.concurrent.RecursiveTask;
 
 public class QuickSortForkJoin {
 
-    public static final int NELEMS = 1000;
+    public static final int NELEMS = 10000;
 
     public static void main(String[] args) {
+        long start=System.currentTimeMillis();
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         Random r = new Random();
 
@@ -23,12 +24,17 @@ public class QuickSortForkJoin {
             int k = r.nextInt(NELEMS);
             arr[i] = k;
         }
-
+        int[] arr01=Arrays.copyOfRange(arr,0,arr.length-1);
         ForkJoinQuicksortTask forkJoinQuicksortTask = new ForkJoinQuicksortTask(arr,
                 0, arr.length - 1);
         final int[] result = forkJoinPool.invoke(forkJoinQuicksortTask);
-        System.out.println(Arrays.toString(arr));
+        long end=System.currentTimeMillis();
+        System.out.println("cost="+(end-start));
         System.out.println(Arrays.toString(result));
+        long s2=System.currentTimeMillis();
+        long end2=System.currentTimeMillis();
+        System.out.println("cost="+(end2-s2));
+        System.out.println(Arrays.toString(arr01));
     }
 }
 
@@ -58,39 +64,38 @@ class ForkJoinQuicksortTask extends RecursiveTask<int[]> {
             List<ForkJoinTask<int[]>> tasks = Lists.newArrayList();
             int pivotIndex = partition(arr, left, right);
 
-            int[] arr0 = Arrays.copyOfRange(arr, left, pivotIndex);
-            int[] arr1 = Arrays.copyOfRange(arr, pivotIndex + 1, right + 1);
+/*            int[] arr0 = Arrays.copyOfRange(arr, left, pivotIndex-1);
+            int[] arr1 = Arrays.copyOfRange(arr, pivotIndex + 1, right + 1);*/
+/*            tasks.add(new ForkJoinQuicksortTask(arr0));
+            tasks.add(new ForkJoinQuicksortTask(arr1));*/
 
-            tasks.add(new ForkJoinQuicksortTask(arr0));
-            tasks.add(new ForkJoinQuicksortTask(arr1));
-
-            int[] result = new int[]{arr[pivotIndex]};
-            boolean pivotElemCopied = false;
+            tasks.add(new ForkJoinQuicksortTask(arr, left, pivotIndex-1));
+            tasks.add(new ForkJoinQuicksortTask(arr, pivotIndex + 1, right ));
+//            boolean pivotElemCopied = false;
             for (final ForkJoinTask<int[]> task : invokeAll(tasks)) {
                 int[] taskResult = task.join();
-                if (!pivotElemCopied) {
+/*                if (!pivotElemCopied) {
                     result = Ints.concat(taskResult, result);
                     pivotElemCopied = true;
                 } else {
                     result = Ints.concat(result, taskResult);
-                }
+                }*/
             }
-            return result;
+            return arr;
         }
     }
 
-    int partition(int[] a, int p, int r) {
-        int i = p - 1;
-        int x = a[r];
-        for (int j = p; j < r; j++) {
-            if (a[j] < x) {
+    private int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
                 i++;
-                swap(a, i, j);
+                swap(arr, i, j);
             }
         }
-        i++;
-        swap(a, i, r);
-        return i;
+        swap(arr, i + 1, high);
+        return i + 1;
     }
 
     void swap(int[] a, int p, int r) {

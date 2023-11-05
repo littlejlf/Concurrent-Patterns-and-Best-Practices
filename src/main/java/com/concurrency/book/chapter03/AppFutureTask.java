@@ -1,13 +1,11 @@
 package com.concurrency.book.chapter03;
 
 import java.time.ZonedDateTime;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 public class AppFutureTask {
 
-    private static FutureTask<String> createAFutureTask() {
+    private static RunnableFuture<String> createAFutureTask() {
         final Callable<String> callable = new Callable<String>() {
 
             @Override
@@ -16,10 +14,11 @@ public class AppFutureTask {
                 return "Hello World";
             }
         };
-        return new FutureTask<String>(callable);
+        //return new FutureTask<String>(callable);
+        return new MyFuture<String>(callable);
     }
 
-    private static void timeTheCall(final FutureTask<String> future) throws ExecutionException, InterruptedException {
+    private static void timeTheCall(final RunnableFuture<String> future) throws ExecutionException, InterruptedException {
         long startTime = System.currentTimeMillis();
         System.out.println(future.get());
         long stopTime = System.currentTimeMillis();
@@ -29,8 +28,9 @@ public class AppFutureTask {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
-      final FutureTask<String> future = createAFutureTask();
+      final RunnableFuture<String> future = createAFutureTask();
         final Thread thread = new Thread(future);
+
         thread.start();
 
         timeTheCall(future);

@@ -1,4 +1,4 @@
-package com.concurrency.book.chapter08
+package com.concurrency.book.chapter07
 
 import akka.actor.SupervisorStrategy.{Escalate, Restart}
 import akka.actor.{Actor, ActorKilledException, ActorLogging, ActorRef, ActorSystem, Identify, OneForOneStrategy, Props}
@@ -7,7 +7,7 @@ import akka.util.Timeout
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 import akka.pattern.ask
-import com.concurrency.book.chapter08.Child.BadMessageException
+import com.concurrency.book.chapter07.Child.BadMessageException
 
 import scala.concurrent.{Await, Future}
 

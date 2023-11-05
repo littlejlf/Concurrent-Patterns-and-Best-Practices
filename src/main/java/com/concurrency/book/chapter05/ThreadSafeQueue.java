@@ -5,7 +5,7 @@ import com.concurrency.book.Utils.ThreadUtils;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-
+//use double lock to improve concurrency
 public class ThreadSafeQueue<T> {
     protected class Node {
         public T value;
@@ -19,7 +19,10 @@ public class ThreadSafeQueue<T> {
 
     private ReentrantLock enqLock, deqLock;
     Condition notEmptyCond, notFullCond;
+    // enq()、deq() can operate size concurrently
     AtomicInteger size;
+    // enq()、deq() cna be called by multi-thread, so the value of head and tail should be refresh to memory immediately;
+    // enq() don't refer tail, so its value can't change in error in result of concurrency; head is same as tail.
     volatile Node head, tail;
     final int capacity;
 
@@ -38,6 +41,7 @@ public class ThreadSafeQueue<T> {
         boolean awakeConsumers = false;
         enqLock.lock();
         try {
+            //isFull ? , when it is signaled ,it will check capacity again
             while (size.get() == capacity)
                 notFullCond.await();
             Node e = new Node(x);
@@ -49,6 +53,7 @@ public class ThreadSafeQueue<T> {
             enqLock.unlock();
         }
         if (awakeConsumers) {
+            //before call signal() func  current thread should get the lock of this condition which will be signaled
             deqLock.lock();
             try {
                 notEmptyCond.signalAll();

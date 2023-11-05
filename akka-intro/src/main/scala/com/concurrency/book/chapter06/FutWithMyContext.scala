@@ -1,4 +1,4 @@
-package com.concurrency.book.chapter07
+package com.concurrency.book.chapter06
 
 import java.util.concurrent.Executors
 

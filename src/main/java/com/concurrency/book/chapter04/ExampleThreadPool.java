@@ -12,7 +12,11 @@ public class ExampleThreadPool {
                 System.out.println("Hey pool!");
             }
         });
-
+        executorService.execute(new Runnable() {
+            public void run() {
+                System.out.println("Hey pool!");
+            }
+        });
         executorService.shutdown();
     }
 }

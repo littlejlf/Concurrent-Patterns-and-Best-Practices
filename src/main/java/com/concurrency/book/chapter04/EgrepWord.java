@@ -26,7 +26,6 @@ public class EgrepWord {
         lines.forEach(line ->
                 taskList.add(new WordFinder(line, "is")));
         List<String> result = new ArrayList<>();
-
         for (final WordFinder task : invokeAll(taskList)) {
             final List<String> taskResult = (List<String>) task.join();
             result.addAll(taskResult);
